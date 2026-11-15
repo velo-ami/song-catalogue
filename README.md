@@ -1,4 +1,4 @@
-# Song Catalogue — C Programming
+# Song Catalogue - C Programming
 
 A command-line song catalogue application developed in C to practise fundamental programming concepts, data organisation and file handling.
 
