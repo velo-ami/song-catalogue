@@ -84,6 +84,8 @@ int enter_data(struct song catalogue[], int song_count)
 {
     char input[text_size]; // temporary space for number input, used to be read before converting
 
+    char *endptr; // points to where strtof() stops reading number
+
     if (song_count == max_songs) {
         printf("The catalogue is full.\n");
         return song_count;
@@ -95,9 +97,17 @@ int enter_data(struct song catalogue[], int song_count)
     printf("Name of Song: ");
     read_line(stdin, catalogue[song_count].title);
 
-    printf("Price: £");
-    read_line(stdin, input);
-    catalogue[song_count].price = atof(input); // read as text, then converted to a float
+    do { // repeats until valid price is entered
+        printf("Price: £"); // asks user to enter price
+        read_line(stdin, input); // reads price as text
+
+        catalogue[song_count].price = strtof(input, &endptr); // converts text to float and records where conversion stops
+
+        if (endptr == input || *endptr != '\0' || catalogue[song_count].price < 0) { // checks for no number, extra characters or negative price
+            printf("Invalid price. Please enter a valid number.\n"); // displays error message
+        }
+
+    } while (endptr == input || *endptr != '\0' || catalogue[song_count].price < 0); // repeats while price is invalid
 
     printf("Year of Release: ");
     read_line(stdin, input);
